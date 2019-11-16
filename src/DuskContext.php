@@ -87,6 +87,36 @@ trait DuskContext
     }
 
     /**
+     * Checks, that text is exists on the page.
+     *
+     * Example: Then I should see "hello world" on the page
+     * Example: And I should see "welcome" on the page
+     *
+     * @Then /^(?:|I )should see "(?P<text>(?:[^"]|\\")*)" on the page$/
+     */
+    public function assertPageContainsText($text)
+    {
+        $this->browse(function (Browser $browser) use ($text) {
+            $browser->assertSee($text);
+        });
+    }
+
+    /**
+     * Checks, that text doesn't exist on the page.
+     *
+     * Example: Then I should not see "foo bar" on the page
+     * Example: And I should not see "You are a looser" on the page
+     *
+     * @Then /^(?:|I )should not see "(?P<text>(?:[^"]|\\")*)" on the page$/
+     */
+    public function assertPageDoesntContainsText($text)
+    {
+        $this->browse(function (Browser $browser) use ($text) {
+            $browser->assertDontSee($text);
+        });
+    }
+
+    /**
      * Fills in form field with specified selector.
      *
      * Example: When I fill in "username" with: "bwayne"
