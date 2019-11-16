@@ -1,0 +1,15 @@
+<?php
+
+namespace Tests\Behat\Context;
+
+use Behat\Behat\Context\Context;
+use Behat\Gherkin\Node\TableNode;
+use Tests\Behat\BehatDuskTestCase;
+use Behat\Gherkin\Node\PyStringNode;
+use Behat\Behat\Hook\Scope\AfterStepScope;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+class FeatureContext extends BehatDuskTestCase implements Context
+{
+    //
+}

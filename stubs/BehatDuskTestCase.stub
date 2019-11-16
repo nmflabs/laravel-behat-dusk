@@ -1,0 +1,47 @@
+<?php
+
+namespace Tests\Behat;
+
+use Tests\DuskTestCase;
+use Laravel\Dusk\Browser;
+use Nmflabs\LaravelBehatDusk\DuskContext;
+
+abstract class BehatDuskTestCase extends DuskTestCase
+{
+    use DuskContext;
+
+    /**
+     * The base folder to locate the files.
+     *
+     * @var string
+     */
+    protected $fileBasePath;
+
+    /**
+     * Instantiate the class.
+     *
+     * @return void
+     */
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+
+        $this->setUp();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Browser::$storeScreenshotsAt = config('behat-dusk.screenshot_path');
+
+        Browser::$storeConsoleLogAt = config('behat-dusk.console_log_path');
+
+        $this->fileBasePath = config('behat-dusk.file_path');
+
+        static::startChromeDriver();
+    }
+}

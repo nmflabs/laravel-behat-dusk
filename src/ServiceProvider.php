@@ -2,8 +2,7 @@
 
 namespace Nmflabs\LaravelBehatDusk;
 
-use Laravel\Lumen\Application as LumenApplication;
-use Illuminate\Foundation\Application as LaravelApplication;
+use Nmflabs\LaravelBehatDusk\Console;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
@@ -17,11 +16,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         $source = realpath(__DIR__.'/../config/behat-dusk.php');
 
-        if ($this->app instanceof LaravelApplication) {
-            $this->publishes([$source => config_path('behat-dusk.php')]);
-        } elseif ($this->app instanceof LumenApplication) {
-            $this->app->configure('behat-dusk');
-        }
+        $this->publishes([$source => config_path('behat-dusk.php')]);
 
         $this->mergeConfigFrom($source, 'behat-dusk');
     }
@@ -33,6 +28,11 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Console\BehatCommand::class,
+                Console\InstallCommand::class,
+            ]);
+        }
     }
 }
