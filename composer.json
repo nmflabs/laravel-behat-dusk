@@ -1,0 +1,54 @@
+{
+    "name": "nmfzone/laravel-behat-dusk",
+    "description": "Seamlessly integrate Behat with Laravel Dusk",
+    "keywords": [
+        "laravel-dusk",
+        "behat",
+        "bdd",
+        "laravel"
+    ],
+    "homepage": "https://github.com/nmfzone/laravel-behat-dusk",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nabil Muhammad Firdaus",
+            "email": "123.nabil.dev@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "behat/behat": "^3.5",
+        "laravel/dusk": "^5.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nmflabs\\LaravelBehatDusk\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Nmflabs\\LaravelBehatDusk\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Nmflabs\\LaravelBehatDusk\\ServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
