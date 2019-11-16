@@ -26,20 +26,6 @@ If you want to change the default config, you must publish the config file:
 $ php artisan vendor:publish --provider="Nmflabs\LaravelBehatDusk\ServiceProvider"
 ```
 
-### Installation in Lumen
-
-```bash
-$ composer require nmfzone/laravel-behat-dusk
-```
-
-Next up, the service provider must be registered:
-
-```php
-// bootstrap/app.php
-
-$app->register(Nmflabs\LaravelBehatDusk\ServiceProvider::class);
-```
-
 ## Usage
 
 Todo
