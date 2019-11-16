@@ -13,7 +13,7 @@ trait DuskContext
      * Checks, that element with specified selector exists on page source.
      *
      * Example: Then I should see a "body" element in source
-     * Example: And I should see a "body" element in source
+     * Example: And I should see an "input" element in source
      *
      * @Then /^(?:|I )should see an? "(?P<element>[^"]*)" element in source$/
      */
@@ -28,7 +28,7 @@ trait DuskContext
      * Checks, that element with specified selector doesn't exist on page source.
      *
      * Example: Then I should not see a "canvas" element in source
-     * Example: And I should not see a "canvas" element in source
+     * Example: And I should not see an "apex" element in source
      *
      * @Then /^(?:|I )should not see an? "(?P<selector>[^"]*)" element in source$/
      */
@@ -49,8 +49,8 @@ trait DuskContext
     /**
      * Checks, that element with specified selector is visible.
      *
-     * Example: Then I should see a "canvas" element
-     * Example: And I should see a "canvas" element
+     * Example: Then I should see a visible "canvas" element
+     * Example: And I should see a visible "canvas" element
      *
      * @Then /^(?:|I )should see a visible "(?P<selector>[^"]*)" element$/
      */
@@ -64,10 +64,10 @@ trait DuskContext
     /**
      * Checks, that element with specified selector is invisible.
      *
-     * Example: Then I should not see a "canvas" element
-     * Example: And I should not see a "canvas" element
+     * Example: Then I should not see an invisible "canvas" element
+     * Example: And I should not see an invisible "canvas" element
      *
-     * @Then /^(?:|I )should see an invisible "(?P<selector>[^"]*)" element$/
+     * @Then /^(?:|I )should not see an invisible "(?P<selector>[^"]*)" element$/
      */
     public function assertElementInvisible($selector)
     {
