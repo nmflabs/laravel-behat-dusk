@@ -65,7 +65,9 @@ class BehatCommand extends Command
             }
 
             $behatProcess->start();
-            $behatProcess->wait();
+            $behatProcess->wait(function ($type, $line) {
+                $this->output->write($line);
+            });
             $this->killChildsProcess($behatProcess->getPid(), 15, false);
             $behatProcess->stop();
 
