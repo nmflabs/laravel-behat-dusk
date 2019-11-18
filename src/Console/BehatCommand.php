@@ -3,6 +3,7 @@
 namespace Nmflabs\LaravelBehatDusk\Console;
 
 use Closure;
+use Exception;
 use Dotenv\Dotenv;
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
@@ -149,10 +150,10 @@ class BehatCommand extends Command
     protected function binary()
     {
         if ('phpdbg' === PHP_SAPI) {
-            return [PHP_BINARY, '-qrr', 'vendor/bin/behat'];
+            return [PHP_BINARY, '-qrr', 'vendor/behat/behat/bin/behat'];
         }
 
-        return [PHP_BINARY, 'vendor/bin/behat'];
+        return [PHP_BINARY, 'vendor/behat/behat/bin/behat'];
     }
 
     /**
@@ -328,7 +329,15 @@ class BehatCommand extends Command
      */
     protected function killChildsProcess($pid, int $signal, bool $throwException): bool
     {
-        $ret = proc_open(sprintf('pgrep -P %d', $pid), [1 => ['pipe', 'w']], $pipes);
+        try {
+            if ('\\' === \DIRECTORY_SEPARATOR) {
+                $ret = proc_open(sprintf('wmic process where ParentProcessId=%d get ProcessId', $pid), [1 => ['pipe', 'w']], $pipes);
+            } else {
+                $ret = proc_open(sprintf('pgrep -P %d', $pid), [1 => ['pipe', 'w']], $pipes);
+            }
+        } catch (Exception $e) {
+            return false;
+        }
 
         if ($ret && $output = fgets($pipes[1])) {
             proc_close($ret);
@@ -340,20 +349,32 @@ class BehatCommand extends Command
                 }
 
                 $childPid = (int) $childPid;
-                if (\function_exists('posix_kill')) {
-                    $ok = @posix_kill($childPid, $signal);
-                } elseif ($ok = proc_open(sprintf('kill -%d %d', $signal, $childPid), [2 => ['pipe', 'w']], $pipes)) {
-                    $resource = $ok;
-                    $ok = false === fgets($pipes[2]);
-                    proc_close($resource);
-                }
 
-                if (!$ok) {
-                    if ($throwException) {
-                        throw new RuntimeException(sprintf('Error while sending signal "%s" to child.', $signal));
+                if ('\\' === \DIRECTORY_SEPARATOR) {
+                    exec(sprintf('taskkill /F /T /PID %d 2>&1', $childPid), $output, $exitCode);
+                    if ($exitCode) {
+                        if ($throwException) {
+                            throw new RuntimeException(sprintf('Unable to kill the child process (%s).', implode(' ', $output)));
+                        }
+
+                        return false;
+                    }
+                } else {
+                    if (\function_exists('posix_kill')) {
+                        $ok = @posix_kill($childPid, $signal);
+                    } elseif ($ok = proc_open(sprintf('kill -%d %d', $signal, $childPid), [2 => ['pipe', 'w']], $pipes)) {
+                        $resource = $ok;
+                        $ok = false === fgets($pipes[2]);
+                        proc_close($resource);
                     }
 
-                    return false;
+                    if (!$ok) {
+                        if ($throwException) {
+                            throw new RuntimeException(sprintf('Error while sending signal "%s" to child.', $signal));
+                        }
+
+                        return false;
+                    }
                 }
             }
 
