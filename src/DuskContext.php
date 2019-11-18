@@ -164,6 +164,66 @@ trait DuskContext
     }
 
     /**
+     * Checks checkbox field with specified selector.
+     *
+     * Example: When I check "animal"
+     * Example: And I check "animal"
+     *
+     * @When /^(?:|I )check "(?P<selector>(?:[^"]|\\")*)"$/
+     */
+    public function selectCheckbox($selector)
+    {
+        $this->browse(function (Browser $browser) use ($selector) {
+            $browser->check($selector);
+        });
+    }
+
+    /**
+     * Unchecks checkbox field with specified selector.
+     *
+     * Example: When I uncheck "animal"
+     * Example: And I uncheck "animal"
+     *
+     * @When /^(?:|I )uncheck "(?P<selector>(?:[^"]|\\")*)"$/
+     */
+    public function uncheckCheckbox($selector)
+    {
+        $this->browse(function (Browser $browser) use ($selector) {
+            $browser->uncheck($selector);
+        });
+    }
+
+    /**
+     * Checks checkbox field with specified selector & value.
+     *
+     * Example: When I check "animal" with value "Bats"
+     * Example: And I check "animal" with value "Bats"
+     *
+     * @When /^(?:|I )check "(?P<selector>(?:[^"]|\\")*)" with value "(?P<value>(?:[^"]|\\")*)"$/
+     */
+    public function selectCheckboxWithValue($selector, $value)
+    {
+        $this->browse(function (Browser $browser) use ($selector, $value) {
+            $browser->check($selector, $value);
+        });
+    }
+
+    /**
+     * Unchecks checkbox field with specified selector & value.
+     *
+     * Example: When I uncheck "animal" with value "Bats"
+     * Example: And I uncheck "animal" with value "Bats"
+     *
+     * @When /^(?:|I )uncheck "(?P<selector>(?:[^"]|\\")*)" with value "(?P<value>(?:[^"]|\\")*)"$/
+     */
+    public function uncheckCheckboxWithValue($selector, $value)
+    {
+        $this->browse(function (Browser $browser) use ($selector, $value) {
+            $browser->uncheck($selector, $value);
+        });
+    }
+
+    /**
      * Attaches file to field with specified selector.
      *
      * Example: When I attach "bwayne_profile.png" to "profileImageUpload"
