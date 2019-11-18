@@ -56,7 +56,13 @@ class BehatCommand extends Command
         $this->startHttpServer(function () {
             $behatProcess = (new Process(array_merge(
                 $this->binary(), $this->behatArguments($_SERVER['argv'])
-            )))->setTimeout(null)->setTty(true);
+            )))->setTimeout(null);
+
+            try {
+                $behatProcess->setTty(true);
+            } catch (RuntimeException $e) {
+                $this->output->writeln('Warning: '.$e->getMessage());
+            }
 
             $behatProcess->start();
             $behatProcess->wait();
