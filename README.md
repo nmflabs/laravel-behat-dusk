@@ -12,7 +12,7 @@ Seamlessly integrate Behat with [Laravel Dusk](https://github.com/laravel/dusk).
 
 ### Requirements
 
-    >= PHP 7.1
+- PHP >= 7.1
 
 ### Installation
 
@@ -28,7 +28,14 @@ $ php artisan vendor:publish --provider="Nmflabs\LaravelBehatDusk\ServiceProvide
 
 ## Usage
 
-Todo
+> I assume you're using this package for the first time you setup behat (so there is no behat.yml, etc).
+
+1. Run this command `php artisan behat-dusk:install`
+2. Duplicate your `.env` to `.env.behat` (optional). This will be the environment used by behat.
+3. Adjust `behat.yml` as you wish
+4. To run the test, run this command `php artisan behat` (it's just wrapper of the original behat command.
+It's automatically run `php artisan serve` for you, and stop it when test is done 🔥)
+5. Enjoy!
 
 ## Security
 
