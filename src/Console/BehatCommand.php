@@ -4,7 +4,6 @@ namespace Nmflabs\LaravelBehatDusk\Console;
 
 use Closure;
 use Dotenv\Dotenv;
-use Illuminate\Support\Env;
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Symfony\Component\Finder\Finder;
@@ -84,7 +83,7 @@ class BehatCommand extends Command
             'serve',
             $this->input->getOption('host') ? '--host=' . $this->input->getOption('host') : null,
             $this->input->getOption('port') ? '--port=' . $this->input->getOption('port') : null,
-            '--tries=0',
+            version_compare($this->laravel->version(), '5.8.0', '>=') ? '--tries=0' : null,
         ];
 
         $process = (new Process(array_filter($arguments)))
@@ -97,7 +96,7 @@ class BehatCommand extends Command
                 $this->output->writeln(sprintf(
                     "Laravel HTTP Server started: http://%s:%s",
                     $this->input->getOption('host') ?? '127.0.0.1',
-                    $this->input->getOption('port') ?? Env::get('SERVER_PORT', 8000)
+                    $this->input->getOption('port') ?? env('SERVER_PORT', 8000)
                 ));
                 $this->output->newLine();
 
