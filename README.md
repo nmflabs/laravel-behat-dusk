@@ -37,6 +37,26 @@ $ php artisan vendor:publish --provider="Nmflabs\LaravelBehatDusk\ServiceProvide
 It's automatically run `php artisan serve` for you, and stop it when test is done 🔥)
 5. Enjoy!
 
+## Troubleshooting
+
+1. Element is not clickable at (x, y)
+    
+    If you're experiencing this issue, there is a high possibility that you're clicking an element that outside the viewport.
+
+    What does it means? It means your element isn't appears on your screen (maybe your element located in very bottom of the page), when the browser trying to click that element.
+    So, of course it's impossible to click that element.
+
+    In the real usage, you're just scrolling the browser to bottom, until you see your element, right? Then, it's just the same here. You need to tell the browser, to scroll the browser to bottom, until it found the element.
+
+    ```php
+    public function selectCheckbox($selector)
+    {
+        $this->browse(function (Browser $browser) use ($selector) {
+            $browser->scrollTo('#foo-element')->check($selector);
+        });    
+    }
+    ``` 
+
 ## Security
 
 If you discover any security related issues, please email to 123.nabil.dev@gmail.com instead of using the issue tracker.
