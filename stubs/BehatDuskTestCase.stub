@@ -4,9 +4,11 @@ namespace Tests\Behat;
 
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
+use use Behat\Behat\Context\Context;
+use Nmflabs\LaravelBehatDusk\DuskPatch;
 use Nmflabs\LaravelBehatDusk\DuskContext;
 
-abstract class BehatDuskTestCase extends DuskTestCase
+abstract class BehatDuskTestCase extends DuskTestCase implements Context
 {
     use DuskContext;
 
