@@ -272,6 +272,21 @@ trait DuskContext
     }
 
     /**
+     * Checks, that current page PATH is equal to specified after a few seconds.
+     *
+     * Example: Then I should be on "/" after "30" seconds
+     * Example: And I should be on "/orders/thanks" after "2" seconds
+     *
+     * @Then /^(?:|I )should be on "(?P<page>[^"]+)" after "(?P<seconds>(?:[^"]|\\")*)" seconds$/
+     */
+    public function assertPageAddressAfterAFewSeconds($path, $seconds)
+    {
+        $this->browse(function (Browser $browser) use ($path, $seconds) {
+            $browser->pause((int) $seconds * 1000)->assertPathIs($path);
+        });
+    }
+
+    /**
      * Checks, that element with specified selector contains specified text/
      *
      * Example: Then I should see "Batman" in the "heroes_list" element
